@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.hibernate.annotations.Formula;
+
 @Entity
 public class Company extends AbstractEntity {
     @NotBlank
@@ -15,7 +17,10 @@ public class Company extends AbstractEntity {
     @OneToMany(mappedBy = "company")
     @Nullable
     private List<Contact> employees = new LinkedList<>();
-
+    
+    @Formula("(SELECT COUNT(c.id) FROM Contact c WHERE c.company_id = id)")
+    private int employeeCount;
+    
     public String getName() {
         return name;
     }
@@ -31,4 +36,8 @@ public class Company extends AbstractEntity {
     public void setEmployees(List<Contact> employees) {
         this.employees = employees;
     }
+
+	public Number getEmployeeCount() {
+		return employeeCount;
+	}
 }
