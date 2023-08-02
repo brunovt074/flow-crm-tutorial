@@ -20,7 +20,7 @@ import jakarta.annotation.security.PermitAll;
  * */
 @PermitAll
 @Route(value = "dashboard", layout = MainLayout.class)
-@PageTitle("Dashboard | Vaadin CRM")
+@PageTitle("Dashboard | BVT CRM")
 public class DashboardView extends VerticalLayout {
 	private final CrmService service;	
 	

@@ -20,106 +20,101 @@ import com.vaadin.flow.shared.Registration;
 
 import java.util.List;
 
-public class ContactForm extends FormLayout { 
-  TextField firstName = new TextField("First name"); 
-  TextField lastName = new TextField("Last name");
-  EmailField email = new EmailField("Email");
-  ComboBox<Status> status = new ComboBox<>("Status");
-  ComboBox<Company> company = new ComboBox<>("Company");
+public class ContactForm extends FormLayout {
 
-  Button save = new Button("Save");
-  Button delete = new Button("Delete");
-  Button close = new Button("Cancel");
-  // Other fields omitted
-  Binder<Contact> binder = new BeanValidationBinder<>(Contact.class);
+	TextField firstName = new TextField("First name");
+	TextField lastName = new TextField("Last name");
+	EmailField email = new EmailField("Email");
+	ComboBox<Status> status = new ComboBox<>("Status");
+	ComboBox<Company> company = new ComboBox<>("Company");
 
-  public ContactForm(List<Company> companies, List<Status> statuses) {
-    addClassName("contact-form");
-    binder.bindInstanceFields(this);
+	Button save = new Button("Save");
+	Button delete = new Button("Delete");
+	Button close = new Button("Cancel");
 
-    company.setItems(companies);
-    company.setItemLabelGenerator(Company::getName);
-    status.setItems(statuses);
-    status.setItemLabelGenerator(Status::getName);
+	Binder<Contact> binder = new BeanValidationBinder<>(Contact.class);
 
-    add(firstName, 
-        lastName,
-        email,
-        company,
-        status,
-        createButtonsLayout());
-  }
+	public ContactForm(List<Company> companies, List<Status> statuses) {
+		addClassName("contact-form");
+		binder.bindInstanceFields(this);
 
-  private Component createButtonsLayout() {
-    save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-    delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
-    close.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+		company.setItems(companies);
+		company.setItemLabelGenerator(Company::getName);
+		status.setItems(statuses);
+		status.setItemLabelGenerator(Status::getName);
 
-    save.addClickShortcut(Key.ENTER);
-    close.addClickShortcut(Key.ESCAPE);
+		add(firstName, lastName, email, company, status, createButtonsLayout());
+	}
 
-    save.addClickListener(event -> validateAndSave()); // <1>
-    delete.addClickListener(event -> fireEvent(new DeleteEvent(this, binder.getBean()))); // <2>
-    close.addClickListener(event -> fireEvent(new CloseEvent(this))); // <3>
+	private Component createButtonsLayout() {
+		save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+		delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
+		close.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
-    binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid())); // <4>
-    return new HorizontalLayout(save, delete, close);
-  }
+		save.addClickShortcut(Key.ENTER);
+		close.addClickShortcut(Key.ESCAPE);
 
-  private void validateAndSave() {
-    if(binder.isValid()) {
-      fireEvent(new SaveEvent(this, binder.getBean())); // <6>
-    }
-  }
+		save.addClickListener(event -> validateAndSave()); // <1>
+		delete.addClickListener(event -> fireEvent(new DeleteEvent(this, binder.getBean()))); // <2>
+		close.addClickListener(event -> fireEvent(new CloseEvent(this))); // <3>
 
+		binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid())); // <4>
+		return new HorizontalLayout(save, delete, close);
+	}
 
-  public void setContact(Contact contact) {
-    binder.setBean(contact); // <1>
-  }
+	private void validateAndSave() {
+		if (binder.isValid()) {
+			fireEvent(new SaveEvent(this, binder.getBean())); // <6>
+		}
+	}
 
-  // Events
-  public static abstract class ContactFormEvent extends ComponentEvent<ContactForm> {
-    private Contact contact;
+	public void setContact(Contact contact) {
+		binder.setBean(contact); // <1>
+	}
 
-    protected ContactFormEvent(ContactForm source, Contact contact) {
-      super(source, false);
-      this.contact = contact;
-    }
+	// Events
+	public static abstract class ContactFormEvent extends ComponentEvent<ContactForm> {
+		private Contact contact;
 
-    public Contact getContact() {
-      return contact;
-    }
-  }
+		protected ContactFormEvent(ContactForm source, Contact contact) {
+			super(source, false);
+			this.contact = contact;
+		}
 
-  public static class SaveEvent extends ContactFormEvent {
-    SaveEvent(ContactForm source, Contact contact) {
-      super(source, contact);
-    }
-  }
+		public Contact getContact() {
+			return contact;
+		}
+	}
 
-  public static class DeleteEvent extends ContactFormEvent {
-    DeleteEvent(ContactForm source, Contact contact) {
-      super(source, contact);
-    }
+	public static class SaveEvent extends ContactFormEvent {
+		SaveEvent(ContactForm source, Contact contact) {
+			super(source, contact);
+		}
+	}
 
-  }
+	public static class DeleteEvent extends ContactFormEvent {
+		DeleteEvent(ContactForm source, Contact contact) {
+			super(source, contact);
+		}
 
-  public static class CloseEvent extends ContactFormEvent {
-    CloseEvent(ContactForm source) {
-      super(source, null);
-    }
-  }
+	}
 
-  public Registration addDeleteListener(ComponentEventListener<DeleteEvent> listener) {
-    return addListener(DeleteEvent.class, listener);
-  }
+	public static class CloseEvent extends ContactFormEvent {
+		CloseEvent(ContactForm source) {
+			super(source, null);
+		}
+	}
 
-  public Registration addSaveListener(ComponentEventListener<SaveEvent> listener) {
-    return addListener(SaveEvent.class, listener);
-  }
-  public Registration addCloseListener(ComponentEventListener<CloseEvent> listener) {
-    return addListener(CloseEvent.class, listener);
-  }
+	public Registration addDeleteListener(ComponentEventListener<DeleteEvent> listener) {
+		return addListener(DeleteEvent.class, listener);
+	}
 
+	public Registration addSaveListener(ComponentEventListener<SaveEvent> listener) {
+		return addListener(SaveEvent.class, listener);
+	}
+
+	public Registration addCloseListener(ComponentEventListener<CloseEvent> listener) {
+		return addListener(CloseEvent.class, listener);
+	}
 
 }

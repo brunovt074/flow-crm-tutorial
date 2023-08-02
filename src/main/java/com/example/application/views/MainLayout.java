@@ -2,6 +2,10 @@ package com.example.application.views;
 
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+
+import com.example.application.internationalization.MyLocaleResolver;
 import com.example.application.security.SecurityService;
 import com.example.application.views.list.ListView;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -14,15 +18,23 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 //AppLayout is a Vaadin layout with a header and a 
 //responsive drawer.
 public class MainLayout extends AppLayout{
 
 	private final SecurityService securityService;
+	private MessageSource messageSource;
+	private MyLocaleResolver myLocaleResolver;
+	private HttpServletRequest request;
 	
-	public MainLayout(SecurityService securityService) {
+	public MainLayout(SecurityService securityService, MessageSource messageSource, MyLocaleResolver myLocaleResolver, HttpServletRequest request) {
 		//Autowire the SecurityService and save it in a field.
 		this.securityService = securityService;
+		this.messageSource = messageSource;
+		this.myLocaleResolver = myLocaleResolver;
+		this.request = request;
 		createHeader();
 		createDrawer();
 	}
@@ -33,7 +45,9 @@ public class MainLayout extends AppLayout{
 	 **/
 	
 	private void createHeader() {
-		H1 logo = new H1("Vaadin CRM");
+		H1 logo = new H1("BVT CRM");
+		String logoutText = messageSource.getMessage("logout", null, 
+										myLocaleResolver.resolveLocale(request)); 
 		
 		logo.addClassNames(LumoUtility.FontSize.LARGE,
 						   LumoUtility.Margin.MEDIUM);
@@ -42,7 +56,7 @@ public class MainLayout extends AppLayout{
 		
 		String u = securityService.getAuthenticatedUser().getUsername();
 		//Create a logout button that calls the logout() method in the service.
-		Button logout = new Button("Log out " + u, e -> securityService.logout());
+		Button logout = new Button(logoutText +" "+ u, e -> securityService.logout());
 		
 		/*
 		 *1-DrawerToggle is a menu button that toggles the visibility 
@@ -77,10 +91,14 @@ public class MainLayout extends AppLayout{
 	 *
 	 **/
 	private void createDrawer() {
+		String listText = messageSource.getMessage("sidebar-list", null, 
+											myLocaleResolver.resolveLocale(request));
+		String dashboardText = messageSource.getMessage("sidebar-dashboard", null, 
+									myLocaleResolver.resolveLocale(request));
 		
 		addToDrawer(new VerticalLayout(
-										new RouterLink("List", ListView.class),
-										new RouterLink("Dashboard", DashboardView.class)
+					new RouterLink(listText, ListView.class),
+										new RouterLink(dashboardText, DashboardView.class)
 										)
 					);
 		

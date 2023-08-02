@@ -16,7 +16,7 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
  * 
  **/
 @Route("login")
-@PageTitle("Login | Vaadin CRM")
+@PageTitle("Login | BVT CRM")
 @AnonymousAllowed
 public class LoginView extends VerticalLayout implements BeforeEnterObserver{
 	
@@ -37,7 +37,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver{
 		//to Spring Security.
 		login.setAction("login");
 		
-		add(new H1("Vaadin CRM"), login);
+		add(new H1("BVT CRM"), login);
 		
 	}
 	

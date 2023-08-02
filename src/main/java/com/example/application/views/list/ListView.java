@@ -2,11 +2,13 @@ package com.example.application.views.list;
 
 import java.util.Collections;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.example.application.data.entity.Contact;
 import com.example.application.data.service.CrmService;
+import com.example.application.internationalization.MyLocaleResolver;
 import com.example.application.views.MainLayout;
 //import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
@@ -27,6 +29,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 
 import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Component
 @Scope("prototype")
@@ -36,6 +39,10 @@ import jakarta.annotation.security.PermitAll;
 @Route(value = "", layout = MainLayout.class)
 @PageTitle("Contacts | BVT CRM")
 public class ListView extends VerticalLayout {
+	//clases para la i18n
+	private MessageSource messageSource;
+	private MyLocaleResolver myLocaleResolver;
+	private HttpServletRequest request;
 	
 	//Instanciamos el grid para la tabla que contendra a la clase Contact
 	Grid<Contact> grid = new Grid<>(Contact.class);
@@ -47,8 +54,14 @@ public class ListView extends VerticalLayout {
 	CrmService service;
 	
 	//Constructor de la vista 
-    public ListView(CrmService service) {
+    public ListView(CrmService service, MessageSource messageSource,
+    				MyLocaleResolver myLocaleResolver,
+    				HttpServletRequest request) {
     	this.service = service;
+    	this.messageSource = messageSource;
+		this.myLocaleResolver =myLocaleResolver;
+		this.request = request;
+		
     	//Nombre de la clase CSS
     	addClassName("list-view");
     	//Seteamos que ocupe todo el tamaño disponible
@@ -131,9 +144,13 @@ public class ListView extends VerticalLayout {
     }
     
     private HorizontalLayout getToolbar() {
+    	String filterByName = messageSource.getMessage("filter", null,
+    												myLocaleResolver.resolveLocale(request));
+    	String addContact = messageSource.getMessage("add-contact", null,
+									myLocaleResolver.resolveLocale(request));
     	
     	//nombre del placeholder
-    	filterText.setPlaceholder("Filter by name...");
+    	filterText.setPlaceholder(filterByName);
     	//dejamos visible al boton
     	filterText.setClearButtonVisible(true);
     	//evitamos que se conecte a la db innecesariamente y lo haga solo cuando el user deje de escribir
@@ -142,7 +159,7 @@ public class ListView extends VerticalLayout {
     	filterText.addValueChangeListener(e->updateList());
     	
     	//Boton de agregar contacto
-    	Button addContactButton = new Button("Add contact");
+    	Button addContactButton = new Button(addContact);
     	//Call addContact() when the user clicks on the "Add 
     	//contact" button.
     	addContactButton.addClickListener(e -> addContact());
@@ -165,14 +182,20 @@ public class ListView extends VerticalLayout {
     	
     }
     private void configureGrid(){
+    	String firstName = messageSource.getMessage("firstname", null,myLocaleResolver.resolveLocale(request));
+    	String lastName = messageSource.getMessage("lastname", null, myLocaleResolver.resolveLocale(request));
+    	String status = messageSource.getMessage("status", null, myLocaleResolver.resolveLocale(request));
+    	String company = messageSource.getMessage("company", null, myLocaleResolver.resolveLocale(request));
     	
     	grid.addClassName("contact-grid");
     	grid.setSizeFull();
     	//Nombres de las columnas
-    	grid.setColumns("firstName", "lastName", "email");
+    	grid.setColumns("firstName", "lastName", "email");    	
+    	grid.getColumnByKey("firstName").setHeader(firstName);
+    	grid.getColumnByKey("lastName").setHeader(lastName);
     	//Obtenemos el nombre de cada uno de los objetos que representara esa columna
-    	grid.addColumn(contact -> contact.getStatus().getName()).setHeader("Status");
-    	grid.addColumn(contact -> contact.getCompany().getName()).setHeader("Company");
+    	grid.addColumn(contact -> contact.getStatus().getName()).setHeader(status);
+    	grid.addColumn(contact -> contact.getCompany().getName()).setHeader(company);
     	//Seteamos las columnas para que su tamaño se adapte dinamicamente al del contenido.    	
     	grid.getColumns().forEach(col -> col.setAutoWidth(true));
     	
