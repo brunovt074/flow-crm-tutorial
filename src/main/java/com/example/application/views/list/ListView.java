@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.application.data.entity.Contact;
 import com.example.application.data.service.CrmService;
-import com.example.application.internationalization.MyLocaleResolver;
+import com.example.application.internationalization.AppLocaleResolver;
 import com.example.application.views.MainLayout;
 //import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
@@ -41,7 +41,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class ListView extends VerticalLayout {
 	//clases para la i18n
 	private MessageSource messageSource;
-	private MyLocaleResolver myLocaleResolver;
+	private AppLocaleResolver appLocaleResolver;
 	private HttpServletRequest request;
 	
 	//Instanciamos el grid para la tabla que contendra a la clase Contact
@@ -55,11 +55,11 @@ public class ListView extends VerticalLayout {
 	
 	//Constructor de la vista 
     public ListView(CrmService service, MessageSource messageSource,
-    				MyLocaleResolver myLocaleResolver,
+    				AppLocaleResolver appLocaleResolver,
     				HttpServletRequest request) {
     	this.service = service;
     	this.messageSource = messageSource;
-		this.myLocaleResolver =myLocaleResolver;
+		this.appLocaleResolver =appLocaleResolver;
 		this.request = request;
 		
     	//Nombre de la clase CSS
@@ -109,7 +109,7 @@ public class ListView extends VerticalLayout {
     }
     
     private void configureForm(){    	
-    	form = new ContactForm(service.findAllCompanies(), service.findAllStatuses());
+    	form = new ContactForm(messageSource,appLocaleResolver,request, service.findAllCompanies(), service.findAllStatuses());
     	form.setWidth("25em");
     	form.addSaveListener(this::saveContact);
     	form.addDeleteListener(this::deleteContact);
@@ -145,9 +145,9 @@ public class ListView extends VerticalLayout {
     
     private HorizontalLayout getToolbar() {
     	String filterByName = messageSource.getMessage("filter", null,
-    												myLocaleResolver.resolveLocale(request));
+    												appLocaleResolver.resolveLocale(request));
     	String addContact = messageSource.getMessage("add-contact", null,
-									myLocaleResolver.resolveLocale(request));
+									appLocaleResolver.resolveLocale(request));
     	
     	//nombre del placeholder
     	filterText.setPlaceholder(filterByName);
@@ -182,10 +182,10 @@ public class ListView extends VerticalLayout {
     	
     }
     private void configureGrid(){
-    	String firstName = messageSource.getMessage("firstname", null,myLocaleResolver.resolveLocale(request));
-    	String lastName = messageSource.getMessage("lastname", null, myLocaleResolver.resolveLocale(request));
-    	String status = messageSource.getMessage("status", null, myLocaleResolver.resolveLocale(request));
-    	String company = messageSource.getMessage("company", null, myLocaleResolver.resolveLocale(request));
+    	String firstName = messageSource.getMessage("firstname", null,appLocaleResolver.resolveLocale(request));
+    	String lastName = messageSource.getMessage("lastname", null, appLocaleResolver.resolveLocale(request));
+    	String status = messageSource.getMessage("status", null, appLocaleResolver.resolveLocale(request));
+    	String company = messageSource.getMessage("company", null, appLocaleResolver.resolveLocale(request));
     	
     	grid.addClassName("contact-grid");
     	grid.setSizeFull();

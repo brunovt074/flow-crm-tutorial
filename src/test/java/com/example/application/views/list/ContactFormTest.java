@@ -3,6 +3,9 @@ package com.example.application.views.list;
 import com.example.application.data.entity.Company;
 import com.example.application.data.entity.Contact;
 import com.example.application.data.entity.Status;
+import com.example.application.internationalization.AppLocaleResolver;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +13,12 @@ import java.util.concurrent.atomic.AtomicReference;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.MessageSource;
 
 public class ContactFormTest {
+	private MessageSource messageSource;
+	private AppLocaleResolver appLocaleResolver;
+	private HttpServletRequest request;
 	
 	private List<Company> companies;
 	private List<Status> statuses;
@@ -64,7 +71,11 @@ public class ContactFormTest {
 	@Test
 	public void formFieldsPopulated() {
 		//1
-		ContactForm form = new ContactForm(companies, statuses);
+		ContactForm form = new ContactForm(messageSource,
+											appLocaleResolver,
+											request,
+											companies, 
+											statuses);
 		form.setContact(marcUsher);
 		//2
 		assertEquals("Marc", form.firstName.getValue());
@@ -85,7 +96,11 @@ public class ContactFormTest {
 	 * */
 	@Test
 	public void saveEventHasCorrectValues() {
-		ContactForm form = new ContactForm(companies, statuses);
+		ContactForm form = new ContactForm(messageSource,
+											appLocaleResolver,
+											request,
+											companies, 
+											statuses);
 		Contact contact = new Contact();
 		form.setContact(contact);//1
 		form.firstName.setValue("John");//2

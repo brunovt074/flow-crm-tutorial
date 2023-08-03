@@ -10,15 +10,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class MyLocaleResolver implements LocaleResolver{
+public class AppLocaleResolver implements LocaleResolver{
 
 	
-    public MyLocaleResolver() {
+    public AppLocaleResolver() {
 		super();		
 	}
 
-//	public MyLocaleResolver myLocaleResolver() {
-//        return new MyLocaleResolver();
+//	public AppLocaleResolver myLocaleResolver() {
+//        return new AppLocaleResolver();
 //    }
 	
 	@Override

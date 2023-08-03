@@ -1,6 +1,9 @@
 package com.example.application.views;
 
+import org.springframework.context.MessageSource;
+
 import com.example.application.data.service.CrmService;
+import com.example.application.internationalization.AppLocaleResolver;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.charts.Chart;
 import com.vaadin.flow.component.charts.model.ChartType;
@@ -13,6 +16,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletRequest;
 
 /*
  *DashboardView is mapped to the "dashboard" path and uses 
@@ -22,11 +26,22 @@ import jakarta.annotation.security.PermitAll;
 @Route(value = "dashboard", layout = MainLayout.class)
 @PageTitle("Dashboard | BVT CRM")
 public class DashboardView extends VerticalLayout {
-	private final CrmService service;	
+	private final CrmService service;
+	private MessageSource messageSource;
+	private AppLocaleResolver appLocaleResolver;
+	private HttpServletRequest request;
 	
 	//Takes CrmService as a constructor parameter and saves it as a field.
-	public DashboardView(CrmService service) {
+	public DashboardView(CrmService service, 
+						 MessageSource messageSource,
+						 AppLocaleResolver appLocaleResolver,
+						 HttpServletRequest request) {
+		
 		this.service = service;
+		this.messageSource=messageSource;
+		this.appLocaleResolver=appLocaleResolver;
+		this.request=request;		
+		
 		addClassName("dashboard-view");
 		//Centers the contents of the layout.
 		setDefaultHorizontalComponentAlignment(Alignment.CENTER);
@@ -34,8 +49,10 @@ public class DashboardView extends VerticalLayout {
 	}
 	
 	private Component getContactStats() {
+		String contactsLabel = messageSource.getMessage("contacts", null,
+														appLocaleResolver.resolveLocale(request));
 		//Calls the service to get the number of contacts.
-		Span stats = new Span(service.countContacts() + " contacts");
+		Span stats = new Span(service.countContacts() + " " + contactsLabel);
 		
 		stats.addClassNames(LumoUtility.FontSize.XLARGE,
 							LumoUtility.Margin.Top.MEDIUM);		

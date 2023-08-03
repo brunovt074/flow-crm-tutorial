@@ -3,6 +3,7 @@ package com.example.application.views.list;
 import com.example.application.data.entity.Company;
 import com.example.application.data.entity.Contact;
 import com.example.application.data.entity.Status;
+import com.example.application.internationalization.AppLocaleResolver;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -18,9 +19,16 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.shared.Registration;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.List;
 
+import org.springframework.context.MessageSource;
+
 public class ContactForm extends FormLayout {
+	private MessageSource messageSource;
+	private AppLocaleResolver appLocaleResolver;
+	private HttpServletRequest request;
 
 	TextField firstName = new TextField("First name");
 	TextField lastName = new TextField("Last name");
@@ -28,16 +36,44 @@ public class ContactForm extends FormLayout {
 	ComboBox<Status> status = new ComboBox<>("Status");
 	ComboBox<Company> company = new ComboBox<>("Company");
 
-	Button save = new Button("Save");
-	Button delete = new Button("Delete");
-	Button close = new Button("Cancel");
+	Button save;
+	Button delete;
+	Button close;
 
 	Binder<Contact> binder = new BeanValidationBinder<>(Contact.class);
 
-	public ContactForm(List<Company> companies, List<Status> statuses) {
+	public ContactForm(MessageSource messageSource,
+					   AppLocaleResolver appLocaleResolver,
+					   HttpServletRequest request, 
+					   List<Company> companies, 
+					   List<Status> statuses) {
+		
 		addClassName("contact-form");
 		binder.bindInstanceFields(this);
 
+		this.messageSource = messageSource;
+		this.appLocaleResolver = appLocaleResolver;
+		this.request = request;
+		// Etiquetas de los campos del formulario
+	    String firstNameLabel = messageSource.getMessage("firstname", null, appLocaleResolver.resolveLocale(request));
+	    String lastNameLabel = messageSource.getMessage("lastname", null, appLocaleResolver.resolveLocale(request));
+	    String statusLabel = messageSource.getMessage("status", null, appLocaleResolver.resolveLocale(request));
+	    String companyLabel = messageSource.getMessage("company", null, appLocaleResolver.resolveLocale(request));
+	    String saveButtonLabel = messageSource.getMessage("save", null, appLocaleResolver.resolveLocale(request));
+	    String deleteButtonLabel = messageSource.getMessage("delete", null, appLocaleResolver.resolveLocale(request));
+	    String cancelButtonLabel = messageSource.getMessage("cancel", null, appLocaleResolver.resolveLocale(request));
+
+	    
+	    save = new Button(saveButtonLabel);
+		delete = new Button(deleteButtonLabel);
+		close = new Button(cancelButtonLabel);
+	    
+		firstName.setLabel(firstNameLabel);
+	    lastName.setLabel(lastNameLabel);
+	    email.setLabel("Email");
+	    status.setLabel(statusLabel);
+	    company.setLabel(companyLabel);
+	    
 		company.setItems(companies);
 		company.setItemLabelGenerator(Company::getName);
 		status.setItems(statuses);
