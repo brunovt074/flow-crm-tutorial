@@ -42,7 +42,11 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver{
 		
 		addClassName("loginForm-view");
 		
-		if(!request.getLocale().toLanguageTag().equalsIgnoreCase("en")) {
+		String language = appLocaleResolver.resolveLocale(request).toString(); //request.getLocale().getLanguage().toString();
+		String loginDescription = messageSource.getMessage("login-description", null, appLocaleResolver.resolveLocale(request));
+				
+		if(language.equalsIgnoreCase("es") || language.equalsIgnoreCase("pt")) {	
+			
 			String loginTitleLabel = messageSource.getMessage("login-title", null, appLocaleResolver.resolveLocale(request));
 			String loginUsernameLabel = messageSource.getMessage("login-username", null, appLocaleResolver.resolveLocale(request));  
 			String loginPasswordLabel = messageSource.getMessage("login-password", null, appLocaleResolver.resolveLocale(request));  
@@ -64,12 +68,13 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver{
 			loginI18nErrorMessage.setTitle(loginErrorTitleLabel);
 			loginI18nErrorMessage.setUsername(loginErrorUserRequired);
 			loginI18nErrorMessage.setPassword(loginPasswordRequired);
-			loginI18nErrorMessage.setMessage(loginErrorMessage);
+			loginI18nErrorMessage.setMessage(loginErrorMessage);		
 			
 			loginI18n.setForm(loginI18nForm);
-			loginForm.setI18n(loginI18n);
-			
-		}	
+		}		
+		
+		loginI18n.setAdditionalInformation(loginDescription);		
+		loginForm.setI18n(loginI18n);
 		
 		/*Make LoginView full size and center its content — both horizontally 
 		 *and vertically — by calling setAlignItems(`Alignment.CENTER)` 
@@ -81,9 +86,9 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver{
 		
 		//Set the LoginForm action to "loginForm" to post the loginForm form 
 		//to Spring Security.		
-		loginForm.setAction("loginForm");
+		loginForm.setAction("loginForm");		
 		
-		add(new H1("BVT CRM"), loginForm);		
+		add(new H1("BVT CRM"),  loginForm);		
 	}
 	
 	@Override

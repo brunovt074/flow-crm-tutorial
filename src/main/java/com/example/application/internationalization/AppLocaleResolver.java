@@ -16,14 +16,11 @@ public class AppLocaleResolver implements LocaleResolver{
     public AppLocaleResolver() {
 		super();		
 	}
-
-//	public AppLocaleResolver myLocaleResolver() {
-//        return new AppLocaleResolver();
-//    }
 	
 	@Override
 	public Locale resolveLocale(HttpServletRequest request) {
-		String language = request.getHeader("Accept-Language");
+		//String language = request.getHeader("Accept-Language");
+		String language = request.getLocale().getLanguage().toString();
 		
 		if(language == null || language.isEmpty()) {
 			
