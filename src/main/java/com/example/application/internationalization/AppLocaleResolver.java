@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class AppLocaleResolver implements LocaleResolver{
 
+	private Locale locale;
 	
     public AppLocaleResolver() {
 		super();		
@@ -24,22 +25,29 @@ public class AppLocaleResolver implements LocaleResolver{
 		
 		if(language == null || language.isEmpty()) {
 			
-			return Locale.forLanguageTag("en");
+			return locale = Locale.forLanguageTag("en");
 		}
 		
-		Locale locale = Locale.forLanguageTag(language);
+		locale = Locale.forLanguageTag(language);
 		
 		if(LanguageConfig.LOCALES.contains(locale)) {
 			
 			return locale;
 		}
 		
-		return Locale.forLanguageTag("en");
+		return locale = Locale.forLanguageTag("en");
+	}
+	 
+	public Locale resolveLocale(String languageToString) {
+		
+		return this.locale = Locale.forLanguageTag(null);
 	}
 
+	
 	@Override
 	public void setLocale(HttpServletRequest request, HttpServletResponse response, Locale locale) {
-		// TODO Auto-generated method stub
+	
+		 
 		
 	}
 

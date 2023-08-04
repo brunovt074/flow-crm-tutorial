@@ -33,8 +33,8 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver{
 	private LoginI18n loginI18n = LoginI18n.createDefault();
 	
 	public LoginView(MessageSource messageSource,
-						AppLocaleResolver appLocaleResolver,
-						HttpServletRequest request) {
+									AppLocaleResolver appLocaleResolver,
+									HttpServletRequest request) {
 		//I18n
 		this.messageSource=messageSource;
 		this.appLocaleResolver=appLocaleResolver;
@@ -42,7 +42,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver{
 		
 		addClassName("loginForm-view");
 		
-		String language = appLocaleResolver.resolveLocale(request).toString(); //request.getLocale().getLanguage().toString();
+		String language = appLocaleResolver.resolveLocale(request).toString();
 		String loginDescription = messageSource.getMessage("login-description", null, appLocaleResolver.resolveLocale(request));
 				
 		if(language.equalsIgnoreCase("es") || language.equalsIgnoreCase("pt")) {	
