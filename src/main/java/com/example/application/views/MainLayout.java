@@ -94,10 +94,9 @@ public class MainLayout extends AppLayout{
 									appLocaleResolver.resolveLocale(request));
 		
 		addToDrawer(new VerticalLayout(
-					new RouterLink(listText, ListView.class),
+					new RouterLink(listText, ListView.class)/*,
 										new RouterLink(dashboardText, DashboardView.class)
-										)
-					);				
+										)*/	));				
 		
 	}
 	
