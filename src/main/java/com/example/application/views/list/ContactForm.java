@@ -26,6 +26,10 @@ import java.util.List;
 import org.springframework.context.MessageSource;
 
 public class ContactForm extends FormLayout {
+	
+	
+	private static final long serialVersionUID = 8142962175529018835L;
+	
 	private MessageSource messageSource;
 	private AppLocaleResolver appLocaleResolver;
 	private HttpServletRequest request;
@@ -110,6 +114,10 @@ public class ContactForm extends FormLayout {
 
 	// Events
 	public static abstract class ContactFormEvent extends ComponentEvent<ContactForm> {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -3301589023858113319L;
 		private Contact contact;
 
 		protected ContactFormEvent(ContactForm source, Contact contact) {
@@ -123,12 +131,22 @@ public class ContactForm extends FormLayout {
 	}
 
 	public static class SaveEvent extends ContactFormEvent {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -8677583235623710537L;
+
 		SaveEvent(ContactForm source, Contact contact) {
 			super(source, contact);
 		}
 	}
 
 	public static class DeleteEvent extends ContactFormEvent {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -3687135766429325193L;
+
 		DeleteEvent(ContactForm source, Contact contact) {
 			super(source, contact);
 		}
@@ -136,6 +154,11 @@ public class ContactForm extends FormLayout {
 	}
 
 	public static class CloseEvent extends ContactFormEvent {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 831299415299312069L;
+
 		CloseEvent(ContactForm source) {
 			super(source, null);
 		}

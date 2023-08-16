@@ -1,7 +1,5 @@
 package com.example.application.views.list;
 
-import java.util.Collections;
-
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -10,23 +8,14 @@ import com.example.application.data.entity.Contact;
 import com.example.application.data.service.CrmService;
 import com.example.application.internationalization.AppLocaleResolver;
 import com.example.application.views.MainLayout;
-//import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.html.Paragraph;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,6 +28,9 @@ import jakarta.servlet.http.HttpServletRequest;
 @Route(value = "", layout = MainLayout.class)
 @PageTitle("Contacts | BVT CRM")
 public class ListView extends VerticalLayout {
+	
+	
+	private static final long serialVersionUID = 1854543478787612946L;
 	//clases para la i18n
 	private MessageSource messageSource;
 	private AppLocaleResolver appLocaleResolver;

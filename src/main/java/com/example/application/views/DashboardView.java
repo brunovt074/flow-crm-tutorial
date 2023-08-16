@@ -26,6 +26,9 @@ import jakarta.servlet.http.HttpServletRequest;
 @Route(value = "dashboard", layout = MainLayout.class)
 @PageTitle("Dashboard | BVT CRM")
 public class DashboardView extends VerticalLayout {
+	
+	
+	private static final long serialVersionUID = 4160237643853322335L;
 	private final CrmService service;
 	private MessageSource messageSource;
 	private AppLocaleResolver appLocaleResolver;

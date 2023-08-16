@@ -2,7 +2,6 @@ package com.example.application.internationalization;
 
 import java.util.Locale;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.LocaleResolver;
 
