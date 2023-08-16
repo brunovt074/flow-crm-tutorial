@@ -43,7 +43,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver{
 		addClassName("loginForm-view");
 		
 		String language = appLocaleResolver.resolveLocale(request).toString();
-		String loginDescription = messageSource.getMessage("login-description", null, appLocaleResolver.resolveLocale(request));
+		//String loginDescription = messageSource.getMessage("login-description", null, appLocaleResolver.resolveLocale(request));
 				
 		if(language.equalsIgnoreCase("es") || language.equalsIgnoreCase("pt")) {	
 			
@@ -73,7 +73,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver{
 			loginI18n.setForm(loginI18nForm);
 		}		
 		
-		loginI18n.setAdditionalInformation(loginDescription);		
+		//loginI18n.setAdditionalInformation(loginDescription);		
 		loginForm.setI18n(loginI18n);
 		
 		/*Make LoginView full size and center its content — both horizontally 
