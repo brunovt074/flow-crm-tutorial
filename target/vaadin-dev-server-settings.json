@@ -1,0 +1,17 @@
+{
+  "frontendFolder": "D:/Users/Bruno/Documents/workspace-spring-tool-suite-4-4.18.0.RELEASE/flow-crm-tutorial/flow-crm-tutorial/frontend",
+  "themeFolder": "themes",
+  "themeResourceFolder": "D:/Users/Bruno/Documents/workspace-spring-tool-suite-4-4.18.0.RELEASE/flow-crm-tutorial/flow-crm-tutorial/frontend/generated/jar-resources",
+  "staticOutput": "D:/Users/Bruno/Documents/workspace-spring-tool-suite-4-4.18.0.RELEASE/flow-crm-tutorial/flow-crm-tutorial/target/classes/META-INF/VAADIN/webapp/VAADIN/static",
+  "generatedFolder": "generated",
+  "statsOutput": "D:\\Users\\Bruno\\Documents\\workspace-spring-tool-suite-4-4.18.0.RELEASE\\flow-crm-tutorial\\flow-crm-tutorial\\target\\classes\\META-INF\\VAADIN\\config",
+  "frontendBundleOutput": "D:\\Users\\Bruno\\Documents\\workspace-spring-tool-suite-4-4.18.0.RELEASE\\flow-crm-tutorial\\flow-crm-tutorial\\target\\classes\\META-INF\\VAADIN\\webapp",
+  "devBundleOutput": "D:/Users/Bruno/Documents/workspace-spring-tool-suite-4-4.18.0.RELEASE/flow-crm-tutorial/flow-crm-tutorial/src/main/dev-bundle/webapp",
+  "devBundleStatsOutput": "D:/Users/Bruno/Documents/workspace-spring-tool-suite-4-4.18.0.RELEASE/flow-crm-tutorial/flow-crm-tutorial/src/main/dev-bundle/config",
+  "jarResourcesFolder": "D:/Users/Bruno/Documents/workspace-spring-tool-suite-4-4.18.0.RELEASE/flow-crm-tutorial/flow-crm-tutorial/frontend/generated/jar-resources",
+  "themeName": "flowcrmtutorial",
+  "clientServiceWorkerSource": "D:\\Users\\Bruno\\Documents\\workspace-spring-tool-suite-4-4.18.0.RELEASE\\flow-crm-tutorial\\flow-crm-tutorial\\target\\sw.ts",
+  "pwaEnabled": true,
+  "offlineEnabled": true,
+  "offlinePath": "'offline.html'"
+}
